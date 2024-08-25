@@ -1,0 +1,28 @@
+syntax = "v1"
+
+info (
+	title:   "aurora title"
+	desc:    "this is aurora blog api"
+	author:  "结月"
+	email:   "20246994207@qq.com"
+	version: "0.0.1"
+)
+
+type AuthenticateRequest {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type AuthenticatedResponse {
+	Token string `json:"token"`
+}
+
+@server (
+	prefix: /v1
+	group:  user
+)
+service aurora {
+	@handler authenticate
+	post /users/authenticate/username (AuthenticateRequest) returns (AuthenticatedResponse)
+}
+

@@ -1,0 +1,22 @@
+
+services:
+  etcd:
+    image: bitnami/etcd:latest
+    container_name: etcd-server
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=no  # 禁用无密码认证
+      - ETCD_ROOT_PASSWORD=123456  # 使用环境变量传递密码
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd-server:2379  # 向外部广告的客户端访问 URL
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379  # 监听客户端请求
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380  # 监听节点间通信（尽管单节点不需要，但保留以防扩展）
+      - ETCD_NAME=etcd-server  # 节点名称
+    ports:
+      - "2379:2379"  # 映射客户端访问端口
+      - "2380:2380"  # 映射节点间通信端口
+    volumes:
+      - etcd-data:/bitnami/etcd  # 数据持久化
+    restart: unless-stopped  # 自动重启策略
+
+volumes:
+  etcd-data:
+    driver: local

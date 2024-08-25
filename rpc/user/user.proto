@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./types";
+
+message UsernameAndPassword {
+  string Username = 1;
+  string Password = 2;
+}
+
+message Authenticated {
+  string Token = 1;
+}
+
+
+service Authenticate {
+  rpc username(UsernameAndPassword) returns (Authenticated);
+}
